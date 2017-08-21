@@ -1,0 +1,30 @@
+	*((uint32_t*)(0x20201000 + 0x30)) = (uint32_t)0;
+	/* 000000...000001 -> ~ -> 111111...111110
+	   111111...111110 && XXXXXX...XXXXXX -> XXXXXX...XXXXX0
+	*/
+	
+	// BitSync
+	//*((uint32_t*)(0x20201000 + 0x30)) |= (uint32_t)(0x0);
+	/* XXXXXX...XXXXX0 or 000000...000001 -> XXXXXX...XXXXX1*/
+
+	// IBRD baudrate : 1
+	*((uint32_t*)(0x20201000 + 0x24)) = (uint32_t)1;
+
+	// FBRD baudrate : 40
+	*((uint32_t*)(0x20201000 + 0x28)) = (uint32_t)40;
+
+	// bit length : LCRH Register, offset address-> 0x2c
+	*((uint32_t*)(0x20201000 + 0x2c)) = (uint32_t)(3 << 5);
+	//*((uint32_t*)(0x20201000 + 0x2c)) |= (uint32_t)(0x3 << 5);
+	
+	// UARTEN -> 1 (true)
+	// BitMASK
+	*((uint32_t*)(0x20201000 + 0x30)) = (uint32_t)((3 << 8) | 1);
+	/* 000000...000001 -> ~ -> 111111...111110
+	   111111...111110 && XXXXXX...XXXXXX -> XXXXXX...XXXXX0
+	*/
+	
+	// BitSync
+	//*((uint32_t*)(0x20201000 + 0x30)) |= (uint32_t)(0x1);
+	/* XXXXXX...XXXXX0 or 000000...000001 -> XXXXXX...XXXXX1*/
+
